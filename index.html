@@ -311,6 +311,7 @@
             }
 
             msgEl.innerText = "";
+            timeLeft = timeLimit;
             
             if (deck.length < 2) {
                 deck = [...rawDeck].sort(() => Math.random() - 0.5); 
@@ -538,6 +539,11 @@
         function resumeGame() {
             isPaused = false;
             document.getElementById('pause-overlay').style.display = 'none';
+
+            if (!isMobileMode) {
+                inputEl.disabled = false;
+                inputEl.focus();
+            }
             startTimer(); 
         }
         

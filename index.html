@@ -485,17 +485,19 @@
 
         function submitAnswer(userVal) {
             if (isPaused || isInputLocked) return;
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+
+            claerInterval(timerInterval);
+            timerInterval = null;
 
             if (userVal === expectedAnswerStr) {
                 score++;
                 combo++;
                 showMessage(`✅ 정답입니다! (+1점)`, '#2ed573');
-                updateStats();
-                nextRound();
+                isInputLocked = true;
+                setTimeout(() => {
+                    isInputLocked = false;
+                    nextRound();
+                }, 500);
             } else {
                 handleWrongAnswer(`❌ 틀렸습니다! 정답은 [${expectedAnswerStr}]`);
             }
@@ -564,6 +566,15 @@
                 togglePause();
             }
         });
+
+        // [추가] 모드와 난이도를 유지하며 게임 재시작
+        function restartGame() {
+            isPaused = false;
+            document.getElementById('pause-overlay').style.display = 'none';
+            
+            // 이전에 설정된 currentMode와 currentDifficulty를 그대로 사용하여 시작
+            startGame(currentDifficulty); 
+        }
             
         function gameOver() {
             clearInterval(timerInterval);

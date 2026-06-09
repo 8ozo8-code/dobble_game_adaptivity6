@@ -335,9 +335,10 @@
                 renderWordPad();
             }
         
-            isInputLocked = false;
             mobileTypedValue = "";
             mobileDisplayEl.innerText = "";
+
+            isInputLocked = false;
             
             if (!isMobileMode) {
                 inputEl.disabled = false;
@@ -561,9 +562,9 @@
         }
         
         // Esc 키 이벤트
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.getElementById('overlay').style.display === 'none') {
-                togglePause();
+        document.addEventListener('click', (e) => {
+            if (!isMobileMode && !isPaused && e.target.tagName !== 'BUTTON') {
+                inputEl.focus(); 
             }
         });
 
